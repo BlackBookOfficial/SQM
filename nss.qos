@@ -12,7 +12,7 @@
 ################################################################################
 
 ipt_setup() {
-    IFACE=eth0
+    IFACE=$IFACE
     
     ipt -t mangle -N QOS_MARK_${IFACE}
     ipt -t mangle -A QOS_MARK_${IFACE} -j MARK --set-mark 0x2/${IPT_MASK}
@@ -47,7 +47,7 @@ cake_egress() {
 }
 
 egress() {
-    IFACE=eth0
+    IFACE=$IFACE
     
     $TC qdisc add dev $IFACE root handle 1: nsstbl rate ${UPLINK}kbit burst 1Mb
     $TC qdisc add dev $IFACE parent 1: handle 10: nssfq_codel limit 4096 flows 1024 quantum 1514 target 5ms interval 100ms set_default
